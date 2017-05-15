@@ -1,0 +1,65 @@
+<html>  
+<head>  
+	<meta charset="utf-8">  
+	<title>输出属性</title>  
+</head> 
+
+<style>
+
+
+</style>
+<body>  
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>  
+	<script>		
+        
+		var url=location.search;
+		console.log(url);
+		var url=location.search;
+		var Request = new Object();
+		if(url.indexOf("?")!=-1)
+		{
+　　        var str = url.substr(1)　//去掉?号
+		　　var　strs= str.split("&"); 
+		　　for(var i=0;i<strs.length;i++)
+		　　{
+　　 　　 			Request[strs[i].split("=")[0]]=unescape(strs[ i].split("=")[1]);
+　　        } 
+		}
+		var chap=0;
+		var chap=Request.chap;
+		var ans=Request.ans;
+		/*document.write(chap);
+		document.write(ans);*/
+        //alert("chap=" + chap);
+
+
+		var count=-1;
+		var flag=false;
+		var st="";
+		var source="sa"+chap+".txt";
+		//document.write(source);
+		d3.text(source, function(error, text) {
+  			if (error) throw error;
+  			console.log(text); // Hello, world!
+  			for (var i = 0; i < text.length; i++) {
+  				if (text[i]=='=')
+  				{
+  					count++;
+  					if (count==ans) flag=true;
+  				}
+  				if (flag)
+  				{
+  					st=st+text[i];
+  					if (text[i]==']') break;
+  				}
+  			}
+  			document.write(ans);
+  			document.write(st);
+		});
+
+		
+
+		</script>  
+		
+	</body>  
+	</html>  

@@ -1,0 +1,129 @@
+<html>  
+<head>  
+	<meta charset="utf-8">  
+	<title>读取csv</title>  
+</head> 
+
+<style>
+
+
+</style>
+<body>  
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>  
+	<script>		
+         
+
+       /*  function obj2string(o){ 
+ var r=[]; 
+ if(typeof o=="string"){ 
+ return "\""+o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r)/g,"\\r").replace(/(\t)/g,"\\t")+"\""; 
+ } 
+ if(typeof o=="object"){ 
+ if(!o.sort){ 
+  for(var i in o){ 
+  r.push(i+":"+obj2string(o[i])); 
+  } 
+  if(!!document.all&&!/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)){ 
+  r.push("toString:"+o.toString.toString()); 
+  } 
+  r="{"+r.join()+"}"; 
+ }else{ 
+  for(var i=0;i<o.length;i++){ 
+  r.push(obj2string(o[i])) 
+  } 
+  r="["+r.join()+"]"; 
+ } 
+ return r; 
+ } 
+ return o.toString(); 
+}*/
+		var url=location.search;
+		console.log(url);
+		var url=location.search;
+		var Request = new Object();
+		if(url.indexOf("?")!=-1)
+		{
+　　        var str = url.substr(1)　//去掉?号
+		　　var　strs= str.split("&"); 
+		　　for(var i=0;i<strs.length;i++)
+		　　{
+　　 　　 			Request[strs[i].split("=")[0]]=unescape(strs[ i].split("=")[1]);
+　　        } 
+		}
+		document.write(Request.chap);
+        /*alert("chap=" + Request["chap"]);
+        alert("id=" + Request["id"]);*/
+
+
+		var ans=24,count=-1;
+		var flag=false;
+		var st="";
+		d3.text("test.txt", function(error, text) {
+  			if (error) throw error;
+  			//document.write(text[2]);
+  			console.log(text); // Hello, world!
+  			for (var i = 0; i < text.length; i++) {
+  				if (text[i]=='=')
+  				{
+  					count++;
+  					if (count==ans) flag=true;
+  				}
+  				if (flag)
+  				{
+  					st=st+text[i];
+  					if (text[i]==']') break;
+  				}
+  			}
+  			document.write(ans);
+  			document.write(st);
+		});
+
+		/*d3.csv("test.csv",function(error,csvdata){
+			
+			console.log(csvdata);
+			//document.write(obj2string(csvdata));
+			//document.write(csvdata);
+			var str = d3.csv.format( csvdata );	
+			document.write(str);
+		});
+        /*var nodes=[];
+        var edges=[];
+        d3.csv("test.csv",function(error,csvdata){
+
+        	if(error){
+        		document.log(error);
+        	}
+        	
+        	for( var i=0; i<csvdata.length; i++ ){
+        		
+        		var s = parseInt(csvdata[i].s);
+			   	var t = parseInt(csvdata[i].t);
+        		if ( s>max ) max=s;
+        		if ( t>max ) max=t;
+        		edges[i]={ source : s  , target: t };
+        		document.write(edges[i].source+"\n"+edges[i].target+"\n");
+        	}
+			document.write(max);
+			for (var i=0;i<=max;i++)
+			{
+				nodes[i]={ name: i  };
+				document.write(nodes[i].name);				
+			}
+
+		});*/
+        
+		//document.log(edges);
+        
+		//document.write(nodes[100].name);
+		/*d3.csv("test.csv",function(error,csvdata){		
+				var str = d3.csv.format( csvdata );			
+				console.log(str.length);
+				document.write(str);	
+			});
+			*/
+			//document.write("asdf"); 
+
+		</script>  
+		
+	</body>  
+	</html>  

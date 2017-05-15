@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://www.xieyu.info/jekyll/update/2017/03/22/inttresting.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>一段有趣的代码引发的思考</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="applicable-device" content="pc,mobile">
+  <script type="text/javascript" src="./一段有趣的代码引发的思考_files/sweetalert.min.js.下载"></script>
+  <link rel="stylesheet" href="./一段有趣的代码引发的思考_files/new.css">
+  <link rel="stylesheet" type="text/css" href="./一段有趣的代码引发的思考_files/sweetalert.css">
+  <style type="text/css">
+  a{
+    color: rgb(181,181,181);
+    text-decoration: none;
+    margin-left: 50px;
+    display: inline-block;
+  }
+  a:hover{
+    color: rgb(44,60,73);
+  }
+  h1{
+    color: rgb(181,181,181);
+  }
+  </style>
+</head>
+<body style="padding: 0px;margin: 0px;">
+<div style="width: 100%;background-color: rgb(44,60,73);color:white;line-height: 50px; ">
+   <a href="http://www.xieyu.info/" style="color: white">Hugo的个人网站</a>
+</div>
+<div style="width: 100%;line-height:40px;background-color: rgb(236,236,236);">
+  <a href="http://www.xieyu.info/">Home</a>
+  <a href="https://github.com/hugo-xie">Github</a>
+  <a href="https://github.com/hugo-xie">ZhiHu</a>
+  <a href="https://book.douban.com/mine?icn=index-nav">DouBan</a>
+  <a href="https://github.com/hugo-xie">WeiBo</a>
+  <a onclick="weixin()">公众号</a>
+</div>
+
+<div class="mainblog">
+  <div class="blogsiderbar" id="content1" style="height: 397px;">
+       <div style="width: 100px;height: 100px;background-color: white;border-radius: 50px;background-image: url(/images/person.jpeg);background-size: 100% 100%"></div>
+      <div style="color: white;font-size: 1.5em;font-weight: bold;">Hugo Xie</div>
+      <div style="color: rgb(181,181,181);font-size: 1em;">Front End Developer</div>
+  </div>
+  <div class="phoneblogsiderbar" id="content1">
+    <div style="width: 100px;height: 100px;background-color: white;border-radius: 50px;background-image: url(/images/person.jpeg);background-size: 100% 100%"></div>
+    <div style="color: white;font-size: 1.5em;font-weight: bold;">Hugo Xie</div>
+    <div style="color: rgb(181,181,181);font-size: 1em;">Front End Developer</div>
+  </div>
+  <div class="phonepay">
+    <a style="color: white;margin-left: 0px;" onclick="pay()">如果觉得文章还不错，可以点击打赏</a>
+  </div>
+  <div class="blogcontent">
+  <div style="width: 80%; margin-left: 10%; height: 397px;" id="content2">
+    <h2>一段有趣的代码引发的思考</h2>
+<p>今天无意间看见一个有趣的代码，原本以为直接就看出了结果，谁知道发现自己预测的结果与运行的结果并不一样，我们先来看一下代码吧</p>
+
+<h3>下面就是这段有趣的代码</h3>
+<div style="background-color: rgb(238,243,240);border:2px dotted rgb(34,195,170);border-radius: 8px;color: green;">
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span><span class="na">n</span><span class="p">:</span><span class="mi">1</span><span class="p">};</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">foo</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">n</span><span class="p">);</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span><span class="na">n</span><span class="p">:</span><span class="mi">2</span><span class="p">};</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">})(</span><span class="nx">foo</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">n</span><span class="p">);</span></code></pre></figure>
+
+</div>
+<p>上面的代码会输出</p>
+<h3>1,2,3</h3>
+
+<p>如果你一眼就看出来输出的是1，2，3，那么就没必要往下看了。反正当我看到运行结果的时候吓了我一跳，怎么会。</p>
+
+<h3>分析</h3>
+
+<p>首先我们用对象字面量的方式定义了一个对象foo,然后是一个立即执行函数，传入的参数就是我们一开始定义的foo对象，然后在这个立即执行函数里面我们也定义了一个局部变量，这个局部变量也叫作foo,而且是那var声明的，所以这时候var声明的这个foo就会发生变量的声明提升，按照原来来说这时候理机执行函数里应该是这样的</p>
+<div style="background-color: rgb(238,243,240);border:2px dotted rgb(34,195,170);border-radius: 8px;color: green;">
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">foo</span><span class="p">){</span>
+  <span class="kd">var</span> <span class="nx">foo</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">n</span><span class="p">);</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span><span class="na">n</span><span class="p">:</span><span class="mi">2</span><span class="p">};</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">})(</span><span class="nx">foo</span><span class="p">);</span></code></pre></figure>
+
+</div>
+<p>我看到这里的时候第一个反应是这里的foo只是声明了啊，那么第一个console当然应该输出的undefined啊，然而这个console却输出了1，这是为什么呢，这就要知道变量的声明了，这里其实因为还传入了一个参数foo，而这个foo是已经定义了n=1的，其实这一段代码等于是在var foo;的上面还有一段隐藏的foo＝{n:1};这是后我们就需要测试一下了，重复声明回覆盖掉之前的值吗？可以运行一下下面这个小例子试一下</p>
+<div style="background-color: rgb(238,243,240);border:2px dotted rgb(34,195,170);border-radius: 8px;color: green;">
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s2">"test"</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">a</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span></code></pre></figure>
+
+</div>
+<p>这里的console.log(a)输出的是test并不是undefined。所以这里可以看出变量的声明和赋值时两回事，只有当在声明变量的时候没有给变量赋值，js引擎才会给这个变量赋一个undefined。</p>
+
+<p>那么第一个console就明确了，然后是foo.n=3,也就是说这时候对foo进行赋值了，那么它到底是对全局变量的赋值还是对局部变量的赋值呢？
+这里我觉得应该是这样的，因为这个foo前面没有加var,那我们知道如果在函数中不加var声明的变量，其实上就是全局变量，所以此时全局的foo.n = 3;下面的var foo = {n:2}因为前面有var声明所以是局部变量，所以第二个声明不去改变全局变量的值，第二个console的值是2，最后一个console的值是3.</p>
+
+  </div>
+  </div>
+</div>
+<div class="footpay" style="background-color: rgb(44,60,73);">
+  <a style="float: right;color: white" onclick="pay()">文章还不错，点击打赏</a>
+</div>
+
+<script type="text/javascript">
+  var content1 = document.getElementById('content1');
+  var content2 = document.getElementById('content2');
+  var content3 = document.getElementById('content3');
+  var content3 = document.getElementById('content4');
+  var height = window.innerHeight-90;
+   var height2 = window.innerHeight-200;
+   var height3 = window.innerHeight*0.38;
+  content1.style.height = height+'px';
+  content2.style.height = height+'px';
+  content3.style.height = height2+'px';
+  content4.style.height = height3+'px';
+  console.log(main[0].style.height);
+  function pay(){
+    swal({
+  title: "支付宝打赏",
+  text: "打赏完记得发邮件给我，让我知道你是谁86xieyu@tongji.edu.cn",
+  imageUrl: "/images/zhifu.JPG",
+  imageSize:"200x200"
+});
+  }
+  function weixin(){
+    swal({
+  title: "微信公众号",
+  text: "不定期写一些小文章",
+  imageUrl: "/images/weixin.jpg",
+  imageSize:"200x200"
+});
+  }
+</script>
+
+</body></html>
