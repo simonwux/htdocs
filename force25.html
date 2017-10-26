@@ -65,13 +65,24 @@
     function fun(i){
         if (i == -100) {
             var obj_label = document.getElementById("test");
-            obj_label.innerHTML = "这里显示点压缩前的内容";
+            obj_label.innerHTML = "这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容";
         } else{
             output(chap, i);
         }
         /*
         var obj_label = document.getElementById("test");
         obj_label.innerHTML = output(chap, i);*/
+    }
+
+    function fun2() {
+        var obj_text = document.getElementById("textArea").value;
+        console.log(obj_text);
+        if (obj_text == -100) {
+            var obj_label = document.getElementById("test");
+            obj_label.innerHTML = "这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容";
+        } else{
+            output(chap, obj_text);
+        }
     }
     /*var nodes = [ { name: "0"    }, { name: "1" },
                   { name: "2"    }, { name: "3"   },
@@ -216,7 +227,7 @@
             nodes[i]={ name: i  };
         }*/
 
-        var width = 3000;
+        var width = 2000;
         var height = 2000;
 
 
@@ -365,8 +376,10 @@
 <input type='button' value='hide' style="height:150px;width:200px;font-size:50px;" onclick="fun(-100)"/>
 </a>
 <br>
+<input type="text" id="textArea" style="height:150px;width:400px;font-size:80px;" />
+<input type='button' value='search' style="height:150px;width:200px;font-size:50px;" onclick="fun2()"/>
 
-<label id="test" style="height:10000px;width:3000px;font-size:100px; float:right">这里显示点压缩前的内容</label>
+<label id="test" style="height:2000px;width:2000px;font-size:100px; float:right">这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容</label>
 
 </body>
 </html>
