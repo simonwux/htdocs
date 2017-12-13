@@ -11,6 +11,22 @@
 <body>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script>
+    var source1 = "mapping.csv";
+    var map = [];
+    var idornameflag = true;
+    var currentId = -100;
+    d3.csv(source1, function (error, csvdata) {
+        if (error) throw error;
+        for (var i = 0; i < csvdata.length; i++) {
+            map[csvdata[i].key] = csvdata[i].value;
+        }
+    });
+
+    function idorname(f) {
+        if (f == 1) idornameflag = true;
+        if (f == 2) idornameflag = false;
+        fun(currentId);
+    }
 
     function output(chap, ans) {
 
@@ -38,35 +54,57 @@
 
         var count = -1;
         var flag = false;
-        var st = "";
+        var st = "[";
         var source = "sa" + chap + ".txt";
         //document.write(source);
         d3.text(source, function (error, text) {
             if (error) throw error;
+            var st1 = "";
             for (var i = 0; i < text.length; i++) {
                 if (text[i] == '=') {
                     count++;
                     if (count == ans) flag = true;
                 }
                 if (flag) {
-                    st = st + text[i];
-                    if (text[i] == ']') break;
+                    if (idornameflag  == false) {
+                        if (text[i] == "," || text[i] == "]") {
+                            //console.log(st1);
+                            if (text[i] != "]") st = st + map[parseInt(st1)] + ", "; else st = st + map[parseInt(st1)];
+                            st1 = "";
+                        } else {
+                            if (text[i] != "[" && text[i] != "=") st1 = st1 + text[i];
+                        }
+                        //st = st + text[i];
+                        if (text[i] == ']') break;
+                    }else {
+                        if (text[i] == "," || text[i] == "]") {
+                            //console.log(st1);
+                            if (text[i] != "]") st = st + st1 + ", "; else st = st + st1;
+                            st1 = "";
+                        } else {
+                            if (text[i] != "[" && text[i] != "=") st1 = st1 + text[i];
+                        }
+                        //st = st + text[i];
+                        if (text[i] == ']') break;
+                    }
                 }
             }
+            st = st + "]";
             resulttext = resulttext + "Within " + chap + " nodes, node ";
             resulttext = resulttext + ans;
-            resulttext = resulttext + st;
-            console.log(resulttext);
+            resulttext = resulttext + " = " + st;
+            //console.log(resulttext);
             var obj_label = document.getElementById("test");
             obj_label.innerHTML = resulttext;
         });
     }
 
-    function fun(i){
+    function fun(i) {
+        currentId = i;
         if (i == -100) {
             var obj_label = document.getElementById("test");
             obj_label.innerHTML = "这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容";
-        } else{
+        } else {
             output(chap, i);
         }
         /*
@@ -80,10 +118,11 @@
         if (obj_text == -100) {
             var obj_label = document.getElementById("test");
             obj_label.innerHTML = "这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容";
-        } else{
+        } else {
             output(chap, obj_text);
         }
     }
+
     /*var nodes = [ { name: "0"    }, { name: "1" },
                   { name: "2"    }, { name: "3"   },
                   { name: "4"   }, { name: "5"    },
@@ -95,7 +134,7 @@
                    edges[7]={ source : 7  , target: 0 };*/
 
 
-    var url = location.search;
+    //var url = location.search;
     /*console.log(url);*/
     var url = location.search;
     var Request = new Object();
@@ -267,12 +306,12 @@
                 var nextpage = "output.html?chap=" + chap + "&ans=" + d.name;
                 window.open(nextpage);
             })
-            .on("mouseover",function(d, i){
+            .on("mouseover", function (d, i) {
                 fun(i);
-                console.log(d3.select(this).style("fill","Lime"));
+                console.log(d3.select(this).style("fill", "Lime"));
 
             })
-            .on("mouseout",function(d, i){
+            .on("mouseout", function (d, i) {
                 //fun(i);
                 console.log(d3.select(this).style("fill", col[i].toString()));
 
@@ -352,7 +391,7 @@
 </script>
 <font style='font-size:100px; color:#000000'>Visualized by D3js, k = </font>
 <script>
-    document.write("<font style='font-size:100px; color:#000000'>"+chap+"</font>");
+    document.write("<font style='font-size:100px; color:#000000'>" + chap + "</font>");
 </script>
 <br><br>
 <input type="button" value="25" style="height:150px;width:200px;font-size:50px;"
@@ -374,9 +413,11 @@
        onclick="javascrtpt:window.location.href='force25.html?chap=150'">
 
 <input type='button' value='hide' style="height:150px;width:200px;font-size:50px;" onclick="fun(-100)"/>
+<input type='button' value='id' style="height:150px;width:200px;font-size:50px;" onclick="idorname(1)"/>
+<input type='button' value='name' style="height:150px;width:200px;font-size:50px;" onclick="idorname(2)"/>
 </a>
 <br>
-<input type="text" id="textArea" style="height:150px;width:400px;font-size:80px;" />
+<input type="text" id="textArea" style="height:150px;width:400px;font-size:80px;"/>
 <input type='button' value='search' style="height:150px;width:200px;font-size:50px;" onclick="fun2()"/>
 
 <label id="test" style="height:2000px;width:2000px;font-size:100px; float:right">这里显示点压缩前的内容，把鼠标放在点上可以显示点的内容</label>

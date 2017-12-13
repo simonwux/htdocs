@@ -28,9 +28,9 @@
 
     for (var i = 0; i <= 20000; i++) flag[i] = 0;
 
-    d3.csv("outdb4.csv", function (error, csvdata) {
+    d3.csv("out.csv", function (error, csvdata) {
         if (error) {
-            //console.log(error);
+            console.log(error);
         }
 
         var max = 0;
@@ -150,7 +150,7 @@
             .links(edges)		//指定连线数组
             .size([width, height])	//指定范围
             .linkDistance(5)	//指定连线长度
-            .charge(-10);	//相互之间的作用力
+            .charge(-200);	//相互之间的作用力
 
         force.start();	//开始作用
 
@@ -173,7 +173,7 @@
             .data(nodes)
             .enter()
             .append("circle")
-            .attr("r", 5)
+            .attr("r", 10)
             .style("fill", function (d, i) {
                 //console.log("aaa");
                 /*var t = linear( flag[i] );
@@ -202,12 +202,12 @@
             .enter()
             .append("text")
             .style("fill", "black")
-            .style("font-size", 40)
-            .attr("dx", 10)
-            .attr("dy", 4)
+            .style("font-size", 20)
+            .attr("dx", 0)
+            .attr("dy", 0)
             .text(function (d) {
-                //return d.name;
-                return null;
+                return d.name;
+                //return null;
             });
 
 
